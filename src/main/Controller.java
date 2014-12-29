@@ -15,82 +15,148 @@ public class Controller {
 	Game game;
 	EntityBullet entBullet;
 	EntityBrick entBrick;
-	Player1 p1;
-	Player2 p2;
-	
-	public Controller(Game game, Player1 p1, Player2 p2) {
-		this.p1=p1;
-		this.p2=p2;
+
+	public Controller(Game game) {
 		this.game = game;
-		
+
 
 	}
-	
 	public void createMap(){
-		/*
-		for(int i = 0 ; i<200 ; i+=30){
-			addEntity(new Brick(i,100,game,this));
+
+		//upper left
+		for(int i = 42 ; i< 210 ; i += 21){
+			addEntity(new Brick(50,i,game,this));
+
 		}
-		*/
-		for(int i = 50 ; i<570 ; i+=30){
-			addEntity(new Brick(i,100,game,this));
-		}
-		
-		for(int i = 170 ; i<450 ; i+=30){
-			addEntity(new Brick(i,150,game,this));
+		for(int i = 42 ; i< 210 ; i += 21){
+			addEntity(new Brick(120,i,game,this));
+
 		}
 		
-		for(int i = 50 ; i<570 ; i+=30){
-			addEntity(new Brick(i,200,game,this));
-		}
-		
-		for(int i = 170 ; i<450 ; i+=30){
-			addEntity(new Brick(i,250,game,this));
-		}
-		
-		for(int i = 50 ; i<570 ; i+=30){
-			addEntity(new Brick(i,300,game,this));
-		}
-		
-		for(int i = 170 ; i<450 ; i+=30){
-			addEntity(new Brick(i,350,game,this));
-		}
-		
-		for(int i = 170 ; i<450 ; i+=30){
-			addEntity(new Brick(i,350,game,this));
-		}
-		
-		for(int i = 170 ; i<450 ; i+=30){
-			addEntity(new Brick(i,350,game,this));
-		}
-		
-		for(int i = 460 ; i>400 ; i=i-15){
+		//middle up
+		for(int i = 42 ; i< 148 ; i += 21){
 			addEntity(new Brick(250,i,game,this));
+
 		}
-		for(int i = 460 ; i>400 ; i=i-15){
+		for(int i = 42 ; i< 148 ; i += 21){
 			addEntity(new Brick(350,i,game,this));
+
 		}
-		for(int i = 255 ; i<350 ; i+=30){
-			addEntity(new Brick(i,400,game,this));
+		//upper right
+		for(int i = 42 ; i< 210 ; i += 21){
+			addEntity(new Brick(470,i,game,this));
+
+		}
+		for(int i = 42 ; i< 210 ; i += 21){
+			addEntity(new Brick(540,i,game,this));
+
+		}
 		
-	
 		
+		
+		//middle
+		for(int i = 150 ; i<234 ; i += 21){
+			addEntity(new Brick(i,260,game,this));
+
+		}
+		for(int i = 420 ; i<504 ; i += 21){
+			addEntity(new Brick(i,260,game,this));
+
+		}
+		for(int i = 0 ; i< 63 ; i += 21){
+			addEntity(new Brick(i,260,game,this));
+
+		}
+		for(int i =585 ; i< 648 ; i += 21){
+			addEntity(new Brick(i,260,game,this));
+
+		}
+		for(int i = 230 ; i< 315 ; i += 21){
+			addEntity(new Brick(280,i,game,this));
+
+		}
+		for(int i = 230 ; i< 315 ; i += 21){
+			addEntity(new Brick(360,i,game,this));
+
+		}
+		
+		for(int i = 300 ; i< 343 ; i += 21){
+			addEntity(new Brick(i,250,game,this));
+
+		}
+		//left block
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(50,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(74,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(98,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(180,i,game,this));
+
+		}
+
+		// right block
+
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(524,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(548,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(572,i,game,this));
+
+		}
+		for(int i = 330 ; i< 435 ; i += 21){
+			addEntity(new Brick(450,i,game,this));
+
+		}
+		
+		
+		
+		//
+
+		// eagle defenders
+		for(int i = 380 ; i< 479 ; i += 21){
+			addEntity(new Brick(265,i,game,this));
+
+		}
+		for(int i = 380 ; i< 479 ; i += 21){
+			addEntity(new Brick(378,i,game,this));
+
+		}
+		for(int i = 280 ; i< 379 ; i += 21){
+			addEntity(new Brick(i,380,game,this));
+
+		}
+		// end of eagle defenders
+
+
 	}
-	}
+
 
 	public void tick(){
 		for(int i = 0 ; i<ebullet.size() ; i++){
 
 			entBullet = ebullet.get(i);
 			entBullet.tick();
-			
+
 
 		}
 		for(int i = 0 ; i<ebullet2.size() ; i++){
 
 			entBullet = ebullet2.get(i);
 			entBullet.tick();
-			
+
 
 		}
 		for(int i = 0 ; i<ebrick.size() ; i++){
@@ -99,8 +165,6 @@ public class Controller {
 			entBrick.tick();
 
 		}
-		p1.existsBrickAt();
-		p2.existsBrickAt();
 
 	}
 	public void render(Graphics g){
