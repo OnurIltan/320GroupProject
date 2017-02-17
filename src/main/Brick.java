@@ -31,7 +31,7 @@ public class Brick extends GameObject implements EntityBrick {
 				c.removeEntity(this);
 				c.removeEntity(tempEnt);
 				System.out.println("COLLISION ON BRICK by player1");
-				Game.brickEffect = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/brick destroy.wav");
+				Game.pointYellow += 100;
 
 			}
 		}for(int i = 0 ; i<game.ebullet2.size(); i++){
@@ -40,7 +40,6 @@ public class Brick extends GameObject implements EntityBrick {
 				c.removeEntity(this);
 				c.removeEntity2(tempEnt);
 				System.out.println("COLLISION ON BRICK by player2");
-				Game.brickEffect = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/brick destroy.wav");
 
 			}
 		}

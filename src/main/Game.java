@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -45,8 +46,8 @@ public class Game extends Canvas implements Runnable {
 	private boolean turnLeft1 = false;
 	private boolean turnUp1 = false;
 	private boolean turnDown1 = false;
-	public boolean gameOverEnterPressed = false;
-	public boolean helpEnterPressed = false;
+	public static boolean gameOverEnterPressed = false;
+	public static boolean helpEnterPressed = false;
 	private int bulletDelay1 = 0;
 	private int bulletDelay2 = 0;
 
@@ -79,13 +80,17 @@ public class Game extends Canvas implements Runnable {
 	private Menu menu;
 	static int healthYellow = 25;
 	static int healthGreen = 25;
+	static int healthCastle = 90;
+	static int pointYellow = 0;
+	static int pointGreen = 0;
 	static AudioManager audio;
 	public AudioManager shootEffect;
 	public AudioManager inGameMusic;
 	static AudioManager brickEffect;
 	public AudioManager gameOverMusic;
-
+	static JFrame frame;
 	int singtime = 0;
+	int time = 0;
 
 
 
@@ -128,7 +133,7 @@ public class Game extends Canvas implements Runnable {
 
 		addKeyListener(new KeyInput(this));
 		addMouseListener(new MouseInput());
-		p1 = new Player1(100,250,this,c);
+		p1 = new Player1(180,100,this,c);
 		p2 = new Player2(410,400,this,c);
 		c= new Controller(this);
 		c.createMap();
@@ -136,10 +141,10 @@ public class Game extends Canvas implements Runnable {
 		ebullet2 = c.getEbullet2();
 		ebrick = c.getEbrick();
 		menu = new Menu();
-		audio = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/main.wav");
+		audio = new AudioManager("res/main.wav");
 		audio.startMusic();
-		gameOverMusic = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/game over.wav");
-		shootEffect = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/shoot.wav");
+		gameOverMusic = new AudioManager("res/game over.wav");
+		shootEffect = new AudioManager("res/shoot.wav");
 
 		requestFocus();
 
@@ -158,10 +163,13 @@ public class Game extends Canvas implements Runnable {
 
 		long timer = System.currentTimeMillis();
 
+
 		while(running){
 			bulletDelay1++;
 			bulletDelay2++;
+			time++;
 			long now = System.nanoTime();
+
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			if(delta >= 1){
@@ -171,9 +179,10 @@ public class Game extends Canvas implements Runnable {
 				delta--;
 			}
 			render();
+
 			if(System.currentTimeMillis() - timer > 1000){
-				timer += 1000;
-				//System.out.println(updates + " ticks, frames " + frames);
+
+				//System.out.println(timer/1000);
 			}
 		}
 
@@ -208,18 +217,32 @@ public class Game extends Canvas implements Runnable {
 			Font fnt1 = new Font("Arial",Font.BOLD,30);
 			g.setColor(Color.WHITE);
 			g.setFont(fnt1);
-			g.drawString("GAME OVER", 260, 250);
+			g.drawString("GAME OVER", 240, 200);
+			if(healthYellow == 0 && pointGreen<pointYellow){
+				g.drawString("Player 1 wins", 240, 250);
+				g.drawString("Player 1: "+pointYellow, 200, 300);
+				g.drawString("Player 2: "+pointGreen, 200, 350);
+
+			}
+			if(healthGreen == 0 && pointGreen>pointYellow){
+				g.drawString("Player 2 wins", 240, 250);
+				g.drawString("Player 1: "+pointYellow, 200, 300);
+				g.drawString("Player 2: "+pointGreen, 200, 350);
+
+			}else{
+				g.drawString("Player 1 wins", 240, 250);
+				g.drawString("Player 1: "+pointYellow, 200, 300);
+				g.drawString("Player 2: "+pointGreen, 200, 350);
+			}
+			
 			Font fnt2 = new Font("Arial",Font.BOLD,15);
 			g.setFont(fnt2);
-			g.drawString("Press enter to go back to main menu", 390, 450);
+			g.drawString("Press enter to exit", 450, 450);
 			if(gameOverEnterPressed == true){
 				g.clearRect (0, 0, getWidth(),getHeight());
-				repaint();
-				gameOverEnterPressed = false;
 
 			}
 
-			//state = STATE.MENU;
 
 		}
 		if(state == STATE.HELP){
@@ -274,6 +297,27 @@ public class Game extends Canvas implements Runnable {
 
 			g.setColor(Color.white);
 			g.drawRect((int)p2.getX()-6, (int)p2.getY()+3, 5, 25);
+			//castle health bar
+			
+			g.setColor(Color.red);
+			g.fillRect(289, 463, 90, 15);
+
+			g.setColor(Color.green);
+			g.fillRect(289, 463, healthCastle, 15);
+
+			g.setColor(Color.white);
+			g.drawRect(289, 463, 90, 15);
+			
+
+			Font fnt1 = new Font("Arial",Font.BOLD,15);
+			g.setColor(Color.WHITE);
+			g.setFont(fnt1);
+			g.drawString("Player 1: "+pointYellow, 0, 20);
+			if(time>3000){
+				pointGreen += 100;
+				time = 0;
+			}
+			g.drawString("Player 2: "+pointGreen, 550, 20);
 
 
 		}
@@ -316,7 +360,7 @@ public class Game extends Canvas implements Runnable {
 		game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-		JFrame frame = new JFrame(game.TITLE);
+		frame = new JFrame(game.TITLE);
 		frame.add(game);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -324,7 +368,11 @@ public class Game extends Canvas implements Runnable {
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setVisible(true);
+
+
 		game.start();
+
+
 
 	}
 	public BufferedImage getTank(){
@@ -347,7 +395,8 @@ public class Game extends Canvas implements Runnable {
 		if(state == STATE.GAMEOVER){
 			if(key == KeyEvent.VK_ENTER ){
 				gameOverEnterPressed = true;
-				state = STATE.MENU;
+				//state = STATE.MENU;
+				System.exit(1);
 
 			}
 		}
@@ -355,6 +404,7 @@ public class Game extends Canvas implements Runnable {
 			if(key == KeyEvent.VK_ENTER ){
 				helpEnterPressed = true;
 				state = STATE.MENU;
+
 
 			}
 		}
@@ -441,7 +491,7 @@ public class Game extends Canvas implements Runnable {
 			else if(key == KeyEvent.VK_SPACE && !isShooting &&bulletDelay1 >1000){
 				isShooting = true;
 				bulletDelay1 = 0;
-				shootEffect = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/shoot.wav");
+				shootEffect = new AudioManager("res/shoot.wav");
 				c.addEntity(new Bullet(p1.getX()+8,p1.getY()+8,this,turnRight,turnLeft,turnUp,turnDown,c));
 				shootEffect.startMusic();
 
@@ -526,7 +576,7 @@ public class Game extends Canvas implements Runnable {
 
 				isShooting1 = true;
 				bulletDelay2 = 0;
-				shootEffect = new AudioManager("C:\\Users/Asus/Desktop/eclipse/workspace/CastleDefence/res/shoot.wav");
+				shootEffect = new AudioManager("res/shoot.wav");
 				c.addEntity2(new Bullet(p2.getX()+8,p2.getY()+8,this,turnRight1,turnLeft1,turnUp1,turnDown1,c));
 				shootEffect.startMusic();
 
@@ -562,6 +612,10 @@ public class Game extends Canvas implements Runnable {
 		g2d.dispose();
 		return image;  
 	} 
+	
+	public static Rectangle getBoundsEagle(){
+		return new Rectangle(290, 400, 87,72);
+	}
 
 
 

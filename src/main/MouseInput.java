@@ -4,9 +4,6 @@ package main;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
 
 public class MouseInput implements MouseListener {
 

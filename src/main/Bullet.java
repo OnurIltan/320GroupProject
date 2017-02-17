@@ -4,14 +4,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-
-
-
-
-
-
-
-import main.Game.STATE;
 import entities.EntityBullet;
 
 public class Bullet extends GameObject implements EntityBullet {
@@ -50,15 +42,29 @@ public class Bullet extends GameObject implements EntityBullet {
 		if (y < -100 || y > 500 || x>700 || x<-360) {
 			c.removeEntity(this);
 		}
-		if(x>=290 && x<= 380){
-			if(y >= 410 && y<= 480 ){
-				Game.state = STATE.GAMEOVER;
+		for(int i = 0 ; i<game.ebullet.size(); i++){
+			EntityBullet tempEnt = game.ebullet.get(i);
+			if(CollisionDetector.CollisionEagle(tempEnt)){
+				c.removeEntity(tempEnt);
+				Game.healthCastle -= 30;
+				if(Game.healthCastle == 0){
+					Game.state = Game.STATE.GAMEOVER;
+				}
+			}
+		}
+		for(int i = 0 ; i<game.ebullet2.size(); i++){
+			EntityBullet tempEnt1 = game.ebullet2.get(i);
+			if(CollisionDetector.CollisionEagle(tempEnt1)){
+				c.removeEntity(tempEnt1);
+				
 			}
 		}
 		
 		
-		
-		
+
+
+
+
 	}
 	public void render(Graphics g){
 		g.drawImage(bullet, (int)x, (int)y, null);

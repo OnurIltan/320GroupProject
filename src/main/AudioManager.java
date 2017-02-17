@@ -2,8 +2,10 @@ package main;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import sun.audio.*;
 
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class AudioManager {
 	AudioStream audio;

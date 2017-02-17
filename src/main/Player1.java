@@ -43,7 +43,11 @@ public class Player1 extends GameObject implements EntityBrick {
 		if(y <= 0) y = 0;
 		if(y >= 480-32) y = 480-32;
 		existsBrickAt();
-		
+		if(x>= 290 && x<=377){
+			if(y>=400 && y<=472){
+				Game.state = STATE.GAMEOVER;
+			}
+		}
 		
 		for(int i = 0 ; i<game.ebullet2.size(); i++){
 			EntityBullet tempEnt = game.ebullet2.get(i);
@@ -52,6 +56,7 @@ public class Player1 extends GameObject implements EntityBrick {
 				Controller.ebullet2.remove(i);
 				Game.healthYellow -= 5;
 				if(Game.healthYellow == 0){
+					
 					Game.state = STATE.GAMEOVER;
 				}
 

@@ -18,9 +18,9 @@ public class CollisionDetector {
 		return false;
 
 	}
-	public static boolean CollisionBullet(EntityBullet bullet, EntityBullet bullet1){
+	public static boolean CollisionEagle(EntityBullet bullet){
 
-		if(bullet.getBounds().intersects(bullet1.getBounds())){
+		if(bullet.getBounds().intersects(Game.getBoundsEagle())){
 			return true;
 
 		}
